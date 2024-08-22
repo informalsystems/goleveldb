@@ -13,7 +13,7 @@ import (
 	"reflect"
 	"sync"
 
-	"github.com/onsi/ginkgo/config"
+	"github.com/onsi/ginkgo/v2"
 
 	"github.com/syndtr/goleveldb/leveldb/comparer"
 )
@@ -67,7 +67,10 @@ func RandomSeed() int64 {
 	if !flag.Parsed() {
 		panic("random seed not initialized")
 	}
-	return config.GinkgoConfig.RandomSeed
+
+	config, _ := ginkgo.GinkgoConfiguration()
+
+	return config.RandomSeed
 }
 
 func NewRand() *rand.Rand {
@@ -126,7 +129,6 @@ func RandomIndex(rnd *rand.Rand, n, round int, fn func(i int)) {
 	for x := 0; x < round; x++ {
 		fn(rnd.Intn(n))
 	}
-	return
 }
 
 func ShuffledIndex(rnd *rand.Rand, n, round int, fn func(i int)) {
@@ -138,7 +140,6 @@ func ShuffledIndex(rnd *rand.Rand, n, round int, fn func(i int)) {
 			fn(i)
 		}
 	}
-	return
 }
 
 func RandomRange(rnd *rand.Rand, n, round int, fn func(start, limit int)) {
@@ -153,7 +154,6 @@ func RandomRange(rnd *rand.Rand, n, round int, fn func(start, limit int)) {
 		}
 		fn(start, start+length)
 	}
-	return
 }
 
 func Max(x, y int) int {
